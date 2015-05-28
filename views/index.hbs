@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<title>humanapi</title>
+  <head>
+      <!-- jquery -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.4/jquery.min.js"></script>
+      <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" href="./stylesheets/main.css">
+
+
+  </head>
+  <body>
+    <form id="registration_form">
+      <h1>Create login</h1>
+      Input Username <br>
+      <div class="line"><input type="email" name="email" placeholder="Enter email" id="email_input"></div>
+      Input Password
+      <div class="line"><input type="password" name="password" placeholder="Enter password" id="password"></div>
+      Confirm Password
+      <div class="line"><input type="password" name="confirm_password" placeholder="Re-enter password" id="confirm_password"></div>
+      <div>
+        <input class="line submit" type="submit" value="Submit" id="submit_input">
+      </div>
+      </form>
+<!-- <input id="Submit" type="button" value="clickme" onclick="testFcn();" /> -->
+    <ul id="userList">
+    </ul>
+
+    
+    <!-- my js file-->
+    <script src="./javascripts/index.js"></script>
+  </body>
+</html>
