@@ -29,13 +29,14 @@ confirm_password.onkeyup = validatePassword;
 
 //#################################
 
+//arrays that will log ids and tokens
 var ids_in_use = [];
 var tokens_in_use = [];
 
 
-
 //generates 36 character unique id
 function guid() {
+  
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
       .toString(16)
@@ -45,16 +46,9 @@ function guid() {
   var id = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 
-console.log("$$$$$$id");
-console.log(id);
-
-    if($.inArray(id, ids_in_use) != -1 || $.inArray(id, tokens_in_use) != -1) {
+  if($.inArray(id, ids_in_use) != -1 || $.inArray(id, tokens_in_use) != -1) {
       guid();
-    }
-
-console.log("$$$$$$after recurse")
-console.log(id)
-
+  }
   return id;
 }
 
@@ -90,38 +84,42 @@ $(function() {
   //display userList
 
   //read in the input from the form
-  $( "#registration_form" ).submit(function( event ) {
-    event.preventDefault();
-    console.log("$$$$$$this");
 
-    var user = $(this).serialize();
-    var userObject = objectizeData(user);
+    $( "#registration_form" ).submit(function( event ) {
+      
+      
+        event.preventDefault();
+        
+        console.log("$$$$$$this");
+          var user = $(this).serialize();
+          var userObject = objectizeData(user);
 
-    var guid_id = guid();
-    ids_in_use.push(guid_id);
+          var guid_id = guid();
+          ids_in_use.push(guid_id);
 
-    //push token to tokens_in_use
-    if($("token_input").length > 0){
-      console.log("token pushed")
-      tokens_in_use.push($("#token_input").val());
-    };
+          //push token to tokens_in_use
+          if($("token_input").length > 0){
+            console.log("token pushed")
+            tokens_in_use.push($("#token_input").val());
+          };
 
-    localStorage.setItem(guid_id, user);
+          localStorage.setItem(guid_id, user);
 
-    console.log("$$$$$$$tokens_in_use");
-    console.log(tokens_in_use);
+          console.log("$$$$$$$tokens_in_use");
+          console.log(tokens_in_use);
 
-    console.log("$$$$$$ids_in_use");
-    console.log(ids_in_use);  
+          console.log("$$$$$$ids_in_use");
+          console.log(ids_in_use);  
 
-    $("#email_input").val('');
-    $("#password").val('');
-    $("#confirm_password").val('');
-    $("#token_input").val('');
-
-    //display user created
-    $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "</li>");
-  });
+          $("#email_input").val('');
+          $("#password").val('');
+          $("#confirm_password").val('');
+          $("#token_input").val('');
+        
+          //display user created
+          $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "</li>");
+        
+    });
 
 
   $("#userList").on("click", "li", function(event){
