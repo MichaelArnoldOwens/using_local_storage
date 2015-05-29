@@ -1,4 +1,6 @@
 
+//password functions
+//##############################
 
 //validating password fields
 var password = document.getElementById("password"),
@@ -30,9 +32,9 @@ confirm_password.onkeyup = validatePassword;
 var ids_in_use = [];
 var tokens_in_use = [];
 
-//generates 36 character 'unique' id
-//to create true unique id, i would create a hash table or list of all id's in use and every time i create a new id, i would check if it's already in the hash, if it is i would generate another id, but it is highly unlikely that i will create the same id twice
-//cost of space and time are not worth trade off for very small chance of collision.
+
+
+//generates 36 character unique id
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -43,8 +45,15 @@ function guid() {
   var id = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 
-    
+console.log("$$$$$$id");
+console.log(id);
 
+    if($.inArray(id, ids_in_use) != -1 || $.inArray(id, tokens_in_use) != -1) {
+      guid();
+    }
+
+console.log("$$$$$$after recurse")
+console.log(id)
 
   return id;
 }
