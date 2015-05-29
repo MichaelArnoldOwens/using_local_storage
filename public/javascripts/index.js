@@ -1,6 +1,12 @@
+//TODO: make sure email is unique on user creation by checking through localstorage
+//TODO: figure out a way to add more access tokens - use array to store tokens
+//TODO: add user list
+//TODO: on click will display users tokens
+//TODO: add update feature
+//TODO: JSUNIT test
 
 //password functions
-//##############################
+//####################################################################################################################################
 
 //validating password fields
 var password = document.getElementById("password"),
@@ -27,7 +33,7 @@ confirm_password.onkeyup = validatePassword;
 
 //hashing function could go here but according to http://tonyarcieri.com/whats-wrong-with-webcrypto client side encryption is almost useless
 
-//#################################
+//####################################################################################################################################
 
 //arrays that will log ids and tokens
 var ids_in_use = [];
@@ -69,6 +75,35 @@ function objectizeData(arg){
     return obj;
 }
 
+//checks if email is already in localStorage
+function isEmailUnique() {
+
+  var email = document.getElementById("password")
+
+  var user_email_input = $("#email_input").val();
+  var parsedLocalStorage = JSON.stringify(localStorage);
+
+console.log(parsedLocalStorage)
+console.log(parsedLocalStorage.indexOf(user_email_input) == -1)
+  console.log("^^^^^^^^")
+
+  if(parsedLocalStorage.indexOf(user_email_input) == -1){
+    return true;
+  }
+  return false;
+}
+
+// event listener for focusout on email
+$("#email_input").focusout(function () {
+  console.log('focusout')
+  var email = document.getElementById("email_input");
+  if(!isEmailUnique()){
+    $("#email_input").val("EMAIL IS IN USE Enter Different email")
+    console.log("Email in use")
+  }
+});
+
+
 $(function() {
   //DOM is ready
   
@@ -79,47 +114,53 @@ $(function() {
     var token = guid();
     //displaying token to be created
     $("#token_input").val(token)
-  })
+  });
 
   //display userList
 
   //read in the input from the form
 
-    $( "#registration_form" ).submit(function( event ) {
+  $( "#registration_form" ).submit(function( event ) {
+      event.preventDefault();
+
+      console.log("############isEmailUnique")
+      console.log(isEmailUnique())
+    
       
+      console.log("$$$$$$this");
+        var user = $(this).serialize();
+        var userObject = objectizeData(user);
+
+        //log id
+        var guid_id = guid();
+        ids_in_use.push(guid_id);
+
+        //log token to tokens_in_use
+        if($("#token_input").length > 0){
+          console.log("token pushed")
+          tokens_in_use.push($("#token_input").val());
+        };
+
+        localStorage.setItem(guid_id, user);
+
+        console.log("$$$$$$$localstorage");
+        console.log(localStorage);
+
+        console.log("$$$$$$$tokens_in_use");
+        console.log(tokens_in_use);
+
+        console.log("$$$$$$ids_in_use");
+        console.log(ids_in_use);  
+
+        $("#email_input").val('');
+        $("#password").val('');
+        $("#confirm_password").val('');
+        $("#token_input").val('');
       
-        event.preventDefault();
-        
-        console.log("$$$$$$this");
-          var user = $(this).serialize();
-          var userObject = objectizeData(user);
-
-          var guid_id = guid();
-          ids_in_use.push(guid_id);
-
-          //push token to tokens_in_use
-          if($("#token_input").length > 0){
-            console.log("token pushed")
-            tokens_in_use.push($("#token_input").val());
-          };
-
-          localStorage.setItem(guid_id, user);
-
-          console.log("$$$$$$$tokens_in_use");
-          console.log(tokens_in_use);
-
-          console.log("$$$$$$ids_in_use");
-          console.log(ids_in_use);  
-
-          $("#email_input").val('');
-          $("#password").val('');
-          $("#confirm_password").val('');
-          $("#token_input").val('');
-        
-          //display user created
-          $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "</li>");
-        
-    });
+        //display user list
+        $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "</li>");
+      
+  });
 
 
   $("#userList").on("click", "li", function(event){
@@ -130,22 +171,26 @@ $(function() {
   });
 });
 
+
+///////////////////////////////////////////////
+
+
 // var db = getLocalStorage() || dispError('Local Storage not supported.');
 
 
-// var testObject = { 'id':'1', 'username': 'anpganpg@gmail.com', 'password': 'abcd1234', 'appTokens': [], 'timestamp': 0, 'lastupdated': 0};
-// var testObject2 = { 'username': 'abcdefghijklmnopqrstuv', 'password': 'abcd1234', 'appTokens': [], 'timestamp': 0, 'lastupdated': 0};
+var testObject = { 'id':'1', 'username': 'anpganpg@gmail.com', 'password': 'abcd1234', 'appTokens': ["token1","token2","token3"], 'timestamp': 0, 'lastupdated': 0};
+// // var testObject2 = { 'username': 'abcdefghijklmnopqrstuv', 'password': 'abcd1234', 'appTokens': [], 'timestamp': 0, 'lastupdated': 0};
 
 // // Put the object into storage
-// localStorage.setItem('testObject', JSON.stringify(testObject));
-// localStorage.setItem('testObject2', JSON.stringify(testObject));
+localStorage.setItem('testObject', JSON.stringify(testObject));
+// // localStorage.setItem('testObject2', JSON.stringify(testObject));
 
 
 // // Retrieve the object from storage
-// var retrievedObject = localStorage.getItem('testObject');
+var retrievedObject = localStorage.getItem('testObject');
 
 
-// console.log('retrievedObject: ', JSON.parse(retrievedObject));
+console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
 // console.log("$$$$$$Inside localstorage:$$$$$")
 // console.log(db);
@@ -158,3 +203,19 @@ $(function() {
 //       return undefined;
 //   }
 // }
+
+// console.log("$$$$$print local storage itemes");
+// var contains_email = false;
+// for(var i in localStorage)
+// {
+//     var value = localStorage[i];
+//     if(value.indexOf("anpganpg@gmail.com") != -1){
+//       contains = true;
+//       console.log(contains_email)
+//     }
+// }
+
+    // console.log("$$$inside loop")
+    // console.log(i)
+    // console.log(localStorage[i]);
+
