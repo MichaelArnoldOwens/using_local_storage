@@ -98,7 +98,7 @@ $(function() {
           ids_in_use.push(guid_id);
 
           //push token to tokens_in_use
-          if($("token_input").length > 0){
+          if($("#token_input").length > 0){
             console.log("token pushed")
             tokens_in_use.push($("#token_input").val());
           };
