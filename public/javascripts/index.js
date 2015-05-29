@@ -30,7 +30,8 @@ confirm_password.onkeyup = validatePassword;
 var ids_in_use = [];
 
 //generates 36 character 'unique' id
-//to create truly unique id, i would probably create a hash table of all id's in use and every time i create a new id, i would check if it's already in the hash, if it is i would generate another id, but it is highly unlikely that i will create the same id twice
+//to create true unique id, i would create a hash table or list of all id's in use and every time i create a new id, i would check if it's already in the hash, if it is i would generate another id, but it is highly unlikely that i will create the same id twice
+//cost of space and time are not worth trade off for very small chance of collision.
 function guid() {
   function s4() {
     return Math.floor((1 + Math.random()) * 0x10000)
@@ -41,8 +42,8 @@ function guid() {
   var id = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 
-    ids_in_use.push(id);
-    console.log(ids_in_use);  
+    // ids_in_use.push(id);
+    // console.log(ids_in_use);  
 
   return id;
 }
@@ -66,14 +67,15 @@ function objectizeData(arg){
 
 $(function() {
   //DOM is ready
-  var token_counter = 0;
-  //add_token_button on click add a token
   
-  $('#add_token_button').click(function() {
-    $('#token_counter_div').html(function(i, val) { return val*1+1 });
-    token_counter++;
-    console.log(token_counter);
-  });
+  //generate token
+  $("#token_button").on("click", function(event){
+    
+    //creating token
+    var token = guid();
+    //displaying token to be created
+    $("#token_input").val(token)
+  })
 
   //display userList
 
