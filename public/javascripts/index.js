@@ -28,6 +28,7 @@ confirm_password.onkeyup = validatePassword;
 //#################################
 
 var ids_in_use = [];
+var tokens_in_use = [];
 
 //generates 36 character 'unique' id
 //to create true unique id, i would create a hash table or list of all id's in use and every time i create a new id, i would check if it's already in the hash, if it is i would generate another id, but it is highly unlikely that i will create the same id twice
@@ -42,8 +43,8 @@ function guid() {
   var id = s4() + s4() + '-' + s4() + '-' + s4() + '-' +
     s4() + '-' + s4() + s4() + s4();
 
-    // ids_in_use.push(id);
-    // console.log(ids_in_use);  
+    
+
 
   return id;
 }
@@ -88,8 +89,26 @@ $(function() {
     var userObject = objectizeData(user);
 
     var guid_id = guid();
+    ids_in_use.push(guid_id);
+
+    //push token to tokens_in_use
+    if($("token_input").length > 0){
+      console.log("token pushed")
+      tokens_in_use.push($("#token_input").val());
+    };
 
     localStorage.setItem(guid_id, user);
+
+    console.log("$$$$$$$tokens_in_use");
+    console.log(tokens_in_use);
+
+    console.log("$$$$$$ids_in_use");
+    console.log(ids_in_use);  
+
+    $("#email_input").val('');
+    $("#password").val('');
+    $("#confirm_password").val('');
+    $("#token_input").val('');
 
     //display user created
     $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "</li>");
@@ -104,7 +123,7 @@ $(function() {
   });
 });
 
-var db = getLocalStorage() || dispError('Local Storage not supported.');
+// var db = getLocalStorage() || dispError('Local Storage not supported.');
 
 
 // var testObject = { 'id':'1', 'username': 'anpganpg@gmail.com', 'password': 'abcd1234', 'appTokens': [], 'timestamp': 0, 'lastupdated': 0};
@@ -122,13 +141,13 @@ var db = getLocalStorage() || dispError('Local Storage not supported.');
 // console.log('retrievedObject: ', JSON.parse(retrievedObject));
 
 // console.log("$$$$$$Inside localstorage:$$$$$")
-console.log(db);
+// console.log(db);
 
-// // checks if browser has local storage
-function getLocalStorage() {
-  try {
-      if( !! window.localStorage ) return window.localStorage;
-  } catch(e) {
-      return undefined;
-  }
-}
+// // // checks if browser has local storage
+// function getLocalStorage() {
+//   try {
+//       if( !! window.localStorage ) return window.localStorage;
+//   } catch(e) {
+//       return undefined;
+//   }
+// }
