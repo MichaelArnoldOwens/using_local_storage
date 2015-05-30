@@ -109,7 +109,7 @@ function getUserList() {
     console.log(user["email"]);
     console.log("^^^^^^^^^^^^^^^^^^")
 
-    $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(user["email"]) + "\n" +  "" + user["password"] + "\n" + "" + user["tokens"] + "</li>");
+    $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(user["email"]) + "\n" +  "" + user["password"] + "\n" + "" + user["token"] + "</li>");
   }
 }
 
@@ -156,14 +156,14 @@ $(function() {
 
         localStorage.setItem(guid_id, unescape(JSON.stringify(userObject)));
 
-        // console.log("$$$$$$$localstorage");
-        // console.log(localStorage);
+        console.log("$$$$$$$localstorage");
+        console.log(localStorage);
 
-        // console.log("$$$$$$$tokens_in_use");
-        // console.log(tokens_in_use);
+        console.log("$$$$$$$tokens_in_use");
+        console.log(tokens_in_use);
 
-        // console.log("$$$$$$ids_in_use");
-        // console.log(ids_in_use);  
+        console.log("$$$$$$ids_in_use");
+        console.log(ids_in_use);  
 
         $("#email_input").val('');
         $("#password").val('');
@@ -171,7 +171,7 @@ $(function() {
         $("#token_input").val('');
       
         //append created user to user list
-        $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "</li>");
+        $("#userList").append("<li data-uid='"+guid_id+"'>" +  "email: " + unescape(userObject["email"]) + "\n" +  "" + userObject["password"] + "\n" + "" + userObject["token"] + "</li>");
       
   });
 
@@ -192,7 +192,7 @@ $(function() {
 // var db = getLocalStorage() || dispError('Local Storage not supported.');
 
 
-var testObject = { 'email': 'anpganpg@gmail.com', 'password': 'abcd1234', 'tokens': ["token1","token2","token3"], 'timestamp': 0, 'lastupdated': 0};
+var testObject = { 'email': 'anpganpg@gmail.com', 'password': 'abcd1234', 'token': ["token1","token2","token3"], 'timestamp': 0, 'lastupdated': 0};
 // // var testObject2 = { 'username': 'abcdefghijklmnopqrstuv', 'password': 'abcd1234', 'appTokens': [], 'timestamp': 0, 'lastupdated': 0};
 // // Put the object into storage
 localStorage.setItem('testObject', JSON.stringify(testObject));
